@@ -101,8 +101,9 @@ const server = http.createServer((req, res) => {
                 }
                 console.log(`Received request from ${santa}`);
                 namesNoLongerValid.push(santa);
+                validNames.splice(validNames.indexOf(santa), 1);
 
-                const childPicked = namesToBePicked[(validNames.indexOf(santa) + shuffleIndex) % validNames.length];
+                const childPicked = namesToBePicked[(namesToBePicked.indexOf(santa) + shuffleIndex) % namesToBePicked.length];
 
                 console.log(`${santa} offre un cadeau à ${childPicked}`);
                 res.writeHead(201, { 'Content-Type': 'application/json' });
