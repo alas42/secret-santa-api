@@ -4,7 +4,7 @@ const validNames = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', '
 const namesNoLongerValid = [];
 const namesToBePicked = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
 
-const ALLOWED_ORIGIN = 'https://alas42.github.io/'; // Replace with your actual allowed origin
+const ALLOWED_ORIGIN = 'https://alas42.github.io'; // Replace with your actual allowed origin
 const API_KEY = "NoelPourTous"; // Generate a random API key
 const shuffleIndex = Math.floor(Math.random() * 8) + 1;
 
