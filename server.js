@@ -5,9 +5,9 @@ const validNames = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', '
 const namesNoLongerValid = [];
 const namesToBePicked = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
 
-const ALLOWED_ORIGIN = 'https://alas42.github.io'; // Replace with your actual allowed origin
+const ALLOWED_ORIGIN = 'https://alas42.github.io/'; // Replace with your actual allowed origin
 const API_KEY = "NoelPourTous"; // Generate a random API key
-console.log('Your API key is:', API_KEY); // This will be logged when the server starts
+const shuffleIndex = Math.floor(Math.random() * 8) + 1;
 
 // Rate limiting setup
 const WINDOW_SIZE_MS = 60000; // 1 minute
@@ -40,6 +40,19 @@ function isRateLimited(ip) {
 }
 
 const server = http.createServer((req, res) => {
+
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key');
+
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
     const origin = req.headers.origin;
     const clientIp = req.socket.remoteAddress;
 
@@ -65,18 +78,6 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key');
-
-    // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-        res.writeHead(204);
-        res.end();
-        return;
-    }
-
     if (req.method === 'POST' && req.url === '/register') {
         let body = '';
 
@@ -99,11 +100,11 @@ const server = http.createServer((req, res) => {
                     res.end(JSON.stringify({ message: "Ptdr t'es qui ?" }));
                     return;
                 }
-                validNames.splice(validNames.indexOf(santa), 1);
+                console.log(`Received request from ${santa}`);
                 namesNoLongerValid.push(santa);
-                const childPickedIndex = Math.floor(Math.random() * namesToBePicked.length);
-                const childPicked = namesToBePicked[childPickedIndex];
-                namesToBePicked.splice(childPickedIndex, 1);
+
+                const childPicked = namesToBePicked[(validNames.indexOf(santa) + shuffleIndex) % validNames.length];
+
                 console.log(`${santa} offre un cadeau à ${childPicked}`);
                 res.writeHead(201, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ message: `${santa} offre un cadeau à ${childPicked}` }));
