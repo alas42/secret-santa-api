@@ -42,11 +42,11 @@ const server = http.createServer((req, res) => {
     const clientIp = req.socket.remoteAddress;
 
     // Check if the request is coming from the allowed origin
-    /*if (origin !== ALLOWED_ORIGIN) {
+    if (origin !== ALLOWED_ORIGIN) {
         res.writeHead(403, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Unauthorized origin' }));
         return;
-    }*/
+    }
 
     // Check API key
     const apiKey = req.headers['x-api-key'];
