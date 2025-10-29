@@ -1,0 +1,9 @@
+{
+    "name": "secret-santa-api",
+    "version": "1.0.0",
+    "description": "A simple API for Secret Santa registration",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    }
+}
