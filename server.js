@@ -1,5 +1,4 @@
 const http = require('http');
-const crypto = require('crypto');
 
 const validNames = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
 const namesNoLongerValid = [];
