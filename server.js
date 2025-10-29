@@ -1,10 +1,12 @@
 const http = require('http');
 const crypto = require('crypto');
 
-const validNames = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé'];
+const validNames = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
+const namesNoLongerValid = [];
+const namesToBePicked = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
 
 const ALLOWED_ORIGIN = 'https://alas42.github.io'; // Replace with your actual allowed origin
-const API_KEY = crypto.randomBytes(6).toString('hex'); // Generate a random API key
+const API_KEY = "NoelPourTous"; // Generate a random API key
 console.log('Your API key is:', API_KEY); // This will be logged when the server starts
 
 // Rate limiting setup
@@ -85,17 +87,26 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const data = JSON.parse(body);
-                const santa = data.santa;
+                const santa = data.santaName;
                 const code = data.code;
 
                 if (!santa || !validNames.includes(santa) || code !== API_KEY) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
+                    if (namesNoLongerValid.includes(santa)) {
+                        res.end(JSON.stringify({ message: "T'as déjà joué, t'es pas gentil !" }));
+                        return;
+                    }
                     res.end(JSON.stringify({ message: "Ptdr t'es qui ?" }));
                     return;
                 }
-
+                validNames.splice(validNames.indexOf(santa), 1);
+                namesNoLongerValid.push(santa);
+                const childPickedIndex = Math.floor(Math.random() * namesToBePicked.length);
+                const childPicked = namesToBePicked[childPickedIndex];
+                namesToBePicked.splice(childPickedIndex, 1);
+                console.log(`${santa} offre un cadeau à ${childPicked}`);
                 res.writeHead(201, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Votre enregistrement a été effectué' }));
+                res.end(JSON.stringify({ message: `${santa} offre un cadeau à ${childPicked}` }));
             } catch (error) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Invalid request format' }));
