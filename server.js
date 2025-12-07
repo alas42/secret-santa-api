@@ -106,7 +106,7 @@ const server = http.createServer((req, res) => {
                 if (!validNames.includes(santa) || namesNoLongerValid.includes(santa)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     if (namesNoLongerValid.includes(santa)) {
-                        res.end(JSON.stringify({ message: "T'as déjà joué, qu'est-ce que tu fais encore là ?" }));
+                        res.end(JSON.stringify({ message: "T'as déjà joué aujourd'hui, qu'est-ce que tu fais encore là ?" }));
                         return;
                     }
                     res.end(JSON.stringify({ message: "Sorry, not included" }));
