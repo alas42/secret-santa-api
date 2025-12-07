@@ -102,7 +102,8 @@ const server = http.createServer((req, res) => {
                     return;
                 }
 
-                const santa = String(santaName).toLowerCase();
+                // Trim trailing whitespace from the provided name, then normalize to lowercase
+                const santa = String(santaName).trimEnd().toLowerCase();
                 if (!validNames.includes(santa) || namesNoLongerValid.includes(santa)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     if (namesNoLongerValid.includes(santa)) {
