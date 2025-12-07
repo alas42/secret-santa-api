@@ -1,12 +1,12 @@
 const http = require('http');
 
-const validNames = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
+const validNames = ['alexandre', 'sandra', 'jacky', 'madeleine', 'joël', 'nathalie', 'peter', 'alix', 'carole', 'lisa'];
 const namesNoLongerValid = [];
-const namesToBePicked = ['Wricha', 'Aurore', 'Vico', 'Donovan', 'Etienne', 'Flora', 'Corentin', 'Chloé', 'Alexandre'];
+const namesToBePicked = ['Alexandre', 'Sandra', 'Jacky', 'Madeleine', 'Joël', 'Nathalie', 'Peter', 'Alix', 'Carole', 'Lisa'];
 
 const ALLOWED_ORIGIN = 'https://alas42.github.io';
-const API_KEY = "NoelPourTous";
-const shuffleIndex = 6; // fixed shuffle because server restarts would change it
+const API_KEY = "BisouxEtPaillettes2025!";
+const shuffleIndex = 1; // fixed shuffle because server restarts would change it
 
 // Rate limiting setup
 const WINDOW_SIZE_MS = 60000;
@@ -87,13 +87,26 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const data = JSON.parse(body);
-                const santa = data.santaName;
-                const code = data.code;
 
-                if (!santa || !validNames.includes(santa) || code !== API_KEY) {
+                const code = data.code;
+                if (code !== API_KEY) {
+                    res.writeHead(401, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Tu ne sais donc pas copier un simple code ?' }));
+                    return;
+                }
+
+                const santaName = data.santaName;
+                if (!santaName) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'On a oublié son propre prénom ?' }));
+                    return;
+                }
+
+                const santa = String(santaName).toLowerCase();
+                if (!validNames.includes(santa) || namesNoLongerValid.includes(santa)) {
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     if (namesNoLongerValid.includes(santa)) {
-                        res.end(JSON.stringify({ message: "T'as déjà joué, t'es pas gentil !" }));
+                        res.end(JSON.stringify({ message: "T'as déjà joué, qu'est-ce que tu fais encore là ?" }));
                         return;
                     }
                     res.end(JSON.stringify({ message: "Ptdr t'es qui ?" }));
@@ -101,13 +114,12 @@ const server = http.createServer((req, res) => {
                 }
                 console.log(`Received request from ${santa}`);
                 namesNoLongerValid.push(santa);
-                validNames.splice(validNames.indexOf(santa), 1);
 
-                const childPicked = namesToBePicked[(namesToBePicked.indexOf(santa) + shuffleIndex) % namesToBePicked.length];
+                const childPicked = namesToBePicked[(validNames.indexOf(santa) + shuffleIndex) % namesToBePicked.length];
 
-                console.log(`${santa} offre un cadeau à ${childPicked}`);
+                console.log(`${santaName} offre un cadeau à ${childPicked}`);
                 res.writeHead(201, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: `${santa} offre un cadeau à ${childPicked}` }));
+                res.end(JSON.stringify({ message: `${santaName} offre un cadeau à ${childPicked}` }));
             } catch (error) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Invalid request format' }));
