@@ -109,7 +109,7 @@ const server = http.createServer((req, res) => {
                         res.end(JSON.stringify({ message: "T'as déjà joué, qu'est-ce que tu fais encore là ?" }));
                         return;
                     }
-                    res.end(JSON.stringify({ message: "Ptdr t'es qui ?" }));
+                    res.end(JSON.stringify({ message: "Sorry, not included" }));
                     return;
                 }
                 console.log(`Received request from ${santa}`);
