@@ -5,7 +5,7 @@ const namesNoLongerValid = [];
 const namesToBePicked = ['Alexandre', 'Sandra', 'Jacky', 'Madeleine', 'Joël', 'Nathalie', 'Peter', 'Alix', 'Carole', 'Lisa'];
 
 const ALLOWED_ORIGIN = 'https://alas42.github.io';
-const API_KEY = "BisouxEtPaillettes2025!";
+const API_KEY = "BisousEtPaillettes2025!";
 const shuffleIndex = 1; // fixed shuffle because server restarts would change it
 
 // Rate limiting setup
