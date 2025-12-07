@@ -1,8 +1,8 @@
 const http = require('http');
 
-const validNames = ['alexandre', 'sandra', 'jacky', 'madeleine', 'joël', 'nathalie', 'peter', 'alix', 'carole', 'lisa'];
+const validNames = ['alexandre', 'sandra', 'jacky', 'madeleine', 'joël', 'nathalie', 'peter', 'flavie', 'alix', 'carole', 'lisa'];
 const namesNoLongerValid = [];
-const namesToBePicked = ['Alexandre', 'Sandra', 'Jacky', 'Madeleine', 'Joël', 'Nathalie', 'Peter', 'Alix', 'Carole', 'Lisa'];
+const namesToBePicked = ['Alexandre', 'Sandra', 'Jacky', 'Madeleine', 'Joël', 'Nathalie', 'Peter', 'Flavie', 'Alix', 'Carole', 'Lisa'];
 
 const ALLOWED_ORIGIN = 'https://alas42.github.io';
 const API_KEY = "BisousEtPaillettes2025!";
